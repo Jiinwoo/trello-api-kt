@@ -1,7 +1,7 @@
 package me.jiinwoo.trello.domain.Member
 
 import me.jiinwoo.trello.domain.Member.dto.MemberCreateDTO
-import me.jiinwoo.trello.infra.config.security.MemberPrincipal
+import me.jiinwoo.trello.global.config.security.MemberPrincipal
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*

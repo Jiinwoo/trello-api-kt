@@ -1,7 +1,7 @@
 package me.jiinwoo.trello.config
 
 import me.jiinwoo.trello.domain.Member.Member
-import me.jiinwoo.trello.infra.config.security.MemberPrincipal
+import me.jiinwoo.trello.global.config.security.MemberPrincipal
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContext

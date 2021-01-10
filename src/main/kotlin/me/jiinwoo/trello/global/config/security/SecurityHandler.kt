@@ -1,7 +1,6 @@
-package me.jiinwoo.trello.infra.config.security
+package me.jiinwoo.trello.global.config.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import me.jiinwoo.trello.infra.config.JwtUtil
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException

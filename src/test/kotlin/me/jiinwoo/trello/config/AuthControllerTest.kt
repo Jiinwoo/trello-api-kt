@@ -2,7 +2,7 @@ package me.jiinwoo.trello.config
 
 import SpringWebTestSupport
 import buildMember
-import me.jiinwoo.trello.infra.config.security.LoginDTO
+import me.jiinwoo.trello.global.config.security.LoginDTO
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MvcResult

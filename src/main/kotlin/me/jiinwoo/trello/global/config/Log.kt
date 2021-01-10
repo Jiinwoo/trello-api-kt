@@ -1,4 +1,4 @@
-package me.jiinwoo.trello.infra.config
+package me.jiinwoo.trello.global.config
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

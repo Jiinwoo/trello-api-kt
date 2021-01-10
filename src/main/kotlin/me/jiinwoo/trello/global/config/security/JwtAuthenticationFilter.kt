@@ -1,4 +1,4 @@
-package me.jiinwoo.trello.infra.config.security
+package me.jiinwoo.trello.global.config.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

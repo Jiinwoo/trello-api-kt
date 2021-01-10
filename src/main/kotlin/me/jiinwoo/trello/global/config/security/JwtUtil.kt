@@ -1,8 +1,8 @@
-package me.jiinwoo.trello.infra.config
+package me.jiinwoo.trello.global.config.security
 
 
 import io.jsonwebtoken.*
-import me.jiinwoo.trello.infra.config.security.MemberPrincipal
+import me.jiinwoo.trello.global.config.Log
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.security.Key

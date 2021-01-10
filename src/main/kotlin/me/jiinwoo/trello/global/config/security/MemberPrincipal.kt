@@ -1,4 +1,4 @@
-package me.jiinwoo.trello.infra.config.security
+package me.jiinwoo.trello.global.config.security
 
 import me.jiinwoo.trello.domain.Member.Member
 import org.springframework.security.core.GrantedAuthority

@@ -1,7 +1,7 @@
-package me.jiinwoo.trello.infra.config
+package me.jiinwoo.trello.global.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import me.jiinwoo.trello.infra.config.security.*
+import me.jiinwoo.trello.global.config.security.*
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationProvider
@@ -35,6 +35,7 @@ class SecurityConfig(
                 .authorizeRequests()
                 .antMatchers("/auth").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/members").permitAll()
+                .antMatchers(HttpMethod.OPTIONS,"/api/members").permitAll()
                 .anyRequest().authenticated()
             .and()
             .addFilter(getJwtAuthenticationFilter())

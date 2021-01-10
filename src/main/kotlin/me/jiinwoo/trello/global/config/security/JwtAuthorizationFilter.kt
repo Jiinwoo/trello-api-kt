@@ -1,8 +1,7 @@
-package me.jiinwoo.trello.infra.config.security
+package me.jiinwoo.trello.global.config.security
 
 import io.jsonwebtoken.ExpiredJwtException
-import me.jiinwoo.trello.infra.config.JwtUtil
-import me.jiinwoo.trello.infra.config.Log
+import me.jiinwoo.trello.global.config.Log
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication

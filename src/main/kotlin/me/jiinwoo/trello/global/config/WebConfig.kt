@@ -1,6 +1,6 @@
-package me.jiinwoo.trello.infra.config
+package me.jiinwoo.trello.global.config
 
-import me.jiinwoo.trello.infra.config.security.MemberPrincipalMethodArgumentResolver
+import me.jiinwoo.trello.global.config.security.MemberPrincipalMethodArgumentResolver
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
