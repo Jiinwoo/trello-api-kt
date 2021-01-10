@@ -3,11 +3,11 @@ package me.jiinwoo.trello.global.config.security
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
+import java.io.PrintWriter
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -17,7 +17,7 @@ import kotlin.collections.HashMap
 class SecurityHandler(
     private val objectMapper: ObjectMapper,
     private val jwtUtil: JwtUtil
-): AuthenticationSuccessHandler, AuthenticationFailureHandler{
+) : AuthenticationSuccessHandler, AuthenticationFailureHandler {
     override fun onAuthenticationSuccess(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -39,17 +39,14 @@ class SecurityHandler(
         exception: AuthenticationException
     ) {
         response.contentType = MediaType.APPLICATION_JSON_VALUE
-        if (exception is AuthenticationCredentialsNotFoundException) {
-            response.status = HttpStatus.UNAUTHORIZED.value()
-        } else {
-            response.status = HttpStatus.FORBIDDEN.value()
-        }
+        response.status = HttpStatus.UNAUTHORIZED.value()
         val data: MutableMap<String, Any?> = HashMap()
-        data["timestamp"] = Calendar.getInstance().time
-        data["exception"] = exception.message
-
-
-        response.outputStream
-            .println(objectMapper.writeValueAsString(data))
+        data["status"] = 401
+        data["errors"] = Collections.EMPTY_LIST
+        data["message"] = "아이디나 패스워드를 확인해주세요."
+        val writeValueAsString = objectMapper.writeValueAsString(data)
+        val out: PrintWriter = response.writer
+        out.print(writeValueAsString)
+        out.flush()
     }
 }

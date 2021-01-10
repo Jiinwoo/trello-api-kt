@@ -13,9 +13,8 @@ enum class ErrorCode(
     INVALID_TYPE_VALUE(400, "C005", " Invalid Type Value"),
     HANDLE_ACCESS_DENIED(403, "C006", "Access is Denied"),
 
-
     // Member
-    EMAIL_DUPLICATION(400, "M001", "Email is Duplication"),
+    EMAIL_DUPLICATION(400, "M001", "이메일이 중복되었습니다."),
     LOGIN_INPUT_INVALID(400, "M002", "Login input is invalid"),
 
     // Coupon

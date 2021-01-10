@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import me.jiinwoo.trello.global.config.security.*
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpMethod
-import org.springframework.security.authentication.AuthenticationProvider
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -13,21 +11,28 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.csrf.CsrfFilter
+import org.springframework.web.filter.CharacterEncodingFilter
 
 @EnableWebSecurity
 class SecurityConfig(
     private val objectMapper: ObjectMapper,
     private val customerUserDetailsService: CustomUserDetailsService,
     private val jwtUtil: JwtUtil,
-    private val customerAuthenticationEntryPoint: CustomAuthenticationEntryPoint
+    private val customerAuthenticationEntryPoint: CustomAuthenticationEntryPoint,
 ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(auth: AuthenticationManagerBuilder) {
-        auth.authenticationProvider(authenticationProvider())
+        auth.authenticationProvider(getCustomAuthenticationProvider())
     }
 
     override fun configure(http: HttpSecurity?) {
+
+        val filter = CharacterEncodingFilter()
+        filter.encoding = "UTF-8"
+        filter.setForceEncoding(true)
         http!!
+            .addFilterBefore(filter, CsrfFilter::class.java)
                 .httpBasic().disable()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -42,6 +47,11 @@ class SecurityConfig(
             .addFilter(getJwtAuthorizationFilter())
             .exceptionHandling()
             .authenticationEntryPoint(customerAuthenticationEntryPoint)
+    }
+
+    @Bean
+    fun getCustomAuthenticationProvider (): CustomAuthenticationProvider {
+        return CustomAuthenticationProvider(getPasswordEncoder(), customerUserDetailsService)
     }
 
     @Bean
@@ -62,14 +72,6 @@ class SecurityConfig(
     @Bean
     fun getSecurityHandler (): SecurityHandler {
         return SecurityHandler(objectMapper, jwtUtil)
-    }
-
-    @Bean
-    fun authenticationProvider (): AuthenticationProvider {
-        val provider = DaoAuthenticationProvider()
-        provider.setUserDetailsService(customerUserDetailsService)
-        provider.setPasswordEncoder(getPasswordEncoder())
-        return provider
     }
 
     @Bean
