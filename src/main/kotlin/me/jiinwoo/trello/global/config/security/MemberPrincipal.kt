@@ -2,23 +2,45 @@ package me.jiinwoo.trello.global.config.security
 
 import me.jiinwoo.trello.domain.Member.Member
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import java.util.*
+import org.springframework.security.oauth2.core.user.OAuth2User
 
 class MemberPrincipal private constructor(
+    private val id: Long?,
     private var email: String,
     private var username: String,
-    private var authorities: MutableCollection<out GrantedAuthority>,
-    private var password: String,
-) : UserDetails {
+    private var authorities: Collection<GrantedAuthority>,
+    private var attributes: MutableMap<String, Any>? = null,
+    private var password: String? = null,
+) : UserDetails, OAuth2User {
+    override fun getName(): String {
+        return this.id.toString();
+    }
+
+    override fun getAttributes(): MutableMap<String, Any>? {
+        return attributes
+    }
 
     companion object {
         fun create(member: Member): MemberPrincipal {
             return MemberPrincipal(
+                id = member.id,
                 email = member.email,
                 username = member.username,
-                authorities = Collections.emptyList(),
+                authorities = listOf(SimpleGrantedAuthority("ROLE_USER")),
                 password = member.encryptedPassword
+            )
+        }
+
+        fun create(member: Member, attributes: MutableMap<String, Any>?=null): MemberPrincipal {
+            return MemberPrincipal(
+                id = member.id,
+                email = member.email,
+                username = member.username,
+                authorities = listOf(SimpleGrantedAuthority("ROLE_USER")),
+                password = member.encryptedPassword,
+                attributes = attributes
             )
         }
     }
@@ -27,11 +49,11 @@ class MemberPrincipal private constructor(
         return email;
     }
 
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+    override fun getAuthorities(): Collection<GrantedAuthority> {
         return this.authorities
     }
 
-    override fun getPassword(): String {
+    override fun getPassword(): String? {
         return this.password
     }
 
