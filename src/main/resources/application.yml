@@ -22,3 +22,12 @@ spring:
     active: local
   jwt:
     secret: secret
+
+
+app:
+  auth:
+    tokenSecret: JWTsecretKey
+    tokenExpirationMsec: 864000000
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect

@@ -6,12 +6,12 @@ import me.jiinwoo.trello.domain.model.AuthProvider
 import me.jiinwoo.trello.global.config.security.MemberPrincipal
 import me.jiinwoo.trello.global.config.security.oauth2.user.KakaoOAuth2UserInfo
 import me.jiinwoo.trello.global.config.security.oauth2.user.OAuth2UserInfo
+import org.apache.commons.lang3.StringUtils
 import org.springframework.security.authentication.InternalAuthenticationServiceException
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
-import org.springframework.util.StringUtils
 import javax.naming.AuthenticationException
 
 @Service
@@ -34,7 +34,7 @@ class CustomOAuth2UserService(
 
         val oAuth2UserInfo =
             getOAuth2UserInfo(oAuth2UserRequest.clientRegistration.registrationId, oAuth2User.attributes)
-        if (StringUtils.hasLength(oAuth2UserInfo.email)) {
+        if (StringUtils.isBlank(oAuth2UserInfo.email)) {
             throw OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider")
         }
 
@@ -48,7 +48,7 @@ class CustomOAuth2UserService(
                 """.trimMargin()
                 )
             }
-            member
+            updateExistingMember(member, oAuth2UserInfo)
         }.orElseGet {
             registerNewUser(oAuth2UserRequest, oAuth2UserInfo)
         }
@@ -76,8 +76,7 @@ class CustomOAuth2UserService(
         )
     }
 
-//    private fun updateExistingMember(existingMember: Member, oAuth2UserInfo: OAuth2UserInfo) = memberRepository.update(existingMember) {
-//        name = oAuth2UserInfo.name
-//        imageUrl = oAuth2UserInfo.imageUrl
-//    }
+    private fun updateExistingMember(existingMember: Member, oAuth2UserInfo: OAuth2UserInfo): Member {
+        return memberRepository.save(existingMember.update(oAuth2UserInfo))
+    }
 }

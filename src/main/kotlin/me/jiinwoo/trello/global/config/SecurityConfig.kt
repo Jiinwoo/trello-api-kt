@@ -3,6 +3,7 @@ package me.jiinwoo.trello.global.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import me.jiinwoo.trello.global.config.security.*
 import me.jiinwoo.trello.global.config.security.oauth2.CustomOAuth2UserService
+import me.jiinwoo.trello.global.config.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository
 import me.jiinwoo.trello.global.config.security.oauth2.OAuth2AuthenticationSuccessHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpMethod
@@ -50,8 +51,9 @@ class SecurityConfig(
                 .anyRequest().authenticated()
             .and()
                 .oauth2Login()
-            .authorizationEndpoint()
-            .baseUri("/oauth2/authorization")
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorization")
+            .authorizationRequestRepository(cookieAuthorizationRequestRepository())
             .and()
 //            .redirectionEndpoint()
 //            .baseUri("/oauth2/callback/*")
@@ -96,5 +98,9 @@ class SecurityConfig(
     fun getPasswordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
+
+    @Bean
+    fun cookieAuthorizationRequestRepository(): HttpCookieOAuth2AuthorizationRequestRepository =
+        HttpCookieOAuth2AuthorizationRequestRepository()
 
 }
