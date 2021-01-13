@@ -2,6 +2,7 @@ package me.jiinwoo.trello.domain.Member
 
 import me.jiinwoo.trello.domain.model.AuditingEntity
 import me.jiinwoo.trello.domain.model.AuthProvider
+import me.jiinwoo.trello.global.config.security.oauth2.user.OAuth2UserInfo
 import javax.persistence.*
 
 @Table(name = "TB_MEMBER")
@@ -31,5 +32,11 @@ class Member(
 
     fun updateEmail() {
         this.email = "asd"
+    }
+
+    fun update(oAuth2UserInfo: OAuth2UserInfo): Member {
+        this.username = oAuth2UserInfo.name
+        this.imageUrl = oAuth2UserInfo.imageUrl
+        return this
     }
 }

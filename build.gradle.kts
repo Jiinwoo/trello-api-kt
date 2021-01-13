@@ -26,6 +26,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.apache.commons:commons-lang3:3.0")
+
 //    runtimeOnly("com.h2database:h2")
     implementation ("org.mariadb.jdbc:mariadb-java-client:2.1.2")
     //querydsl
