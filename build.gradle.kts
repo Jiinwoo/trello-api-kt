@@ -23,10 +23,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-websocket")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.apache.commons:commons-lang3:3.0")
+
+    //kafka
+    implementation("org.springframework.kafka:spring-kafka")
 
 //    runtimeOnly("com.h2database:h2")
     implementation ("org.mariadb.jdbc:mariadb-java-client:2.1.2")

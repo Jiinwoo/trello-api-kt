@@ -15,7 +15,7 @@ import javax.xml.bind.DatatypeConverter
 class JwtUtil {
 
     companion object: Log {
-        const val TOKEN_VALIDATION_SECOND = 1000L * 10
+        const val TOKEN_VALIDATION_SECOND = 1000L * 60 * 24 * 2
         const val REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 60 * 24 * 2
         const val ACCESS_TOKEN_NAME = "accessToken"
         const val REFRESH_TOKEN_NAME = "refreshToken"
